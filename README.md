@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Welcome</h1>
-    <p>This is a simple HTML page.</p>
+    <p>This is a HTML page.</p>
     <br>
     <a href="https://example.com">Visit Example</a>
 </body>
