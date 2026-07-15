@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+</head>
+<body>
+
+<center>
+<h2>Registration Form</h2>
+
+<form action="process.php" method="post">
+
+Name:
+<input type="text" name="name"><br><br>
+
+Age:
+<input type="text" name="age"><br><br>
+
+Course:
+<select name="course">
+    <option value="">Select Course</option>
+    <option value="BCA">BCA</option>
+    <option value="BSc">BSc</option>
+    <option value="BTech">BTech</option>
+</select>
+<br><br>
+
+Skills:<br>
+<input type="checkbox" name="skill1" value="HTML">HTML
+<input type="checkbox" name="skill2" value="PHP">PHP
+<input type="checkbox" name="skill3" value="Java">Java
+
+<br><br>
+
+<input type="submit" value="Submit">
+
+</form>
+
+</center>
+
+</body>
+</html>
