@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bike Registration Form</title>
+</head>
+<body>
+
+<h2>Bike Registration Form</h2>
+
+<form action="bikereg.php" method="get">
+
+    Registration ID:
+    <input type="text" name="regid"><br><br>
+
+    Owner Name:
+    <input type="text" name="name"><br><br>
+
+    Bike Model:
+    <input type="text" name="model"><br><br>
+
+    Brand:
+    <select name="brand">
+        <option>Honda</option>
+        <option>Yamaha</option>
+        <option>Bajaj</option>
+        <option>TVS</option>
+    </select><br><br>
+
+    <input type="checkbox" name="helmet" value="Helmet"> Helmet
+    <input type="checkbox" name="gps" value="GPS"> GPS
+    <br><br>
+
+    <input type="submit" value="Register">
+    <input type="reset" value="Clear">
+
+</form>
+
+</body>
+</html>
