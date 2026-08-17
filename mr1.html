@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>RYDEON - Ride Booking System</title>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+    height: 70px;
+    background: #ffd600;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    color: #111;
+}
+
+.header-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-right span {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.main-button {
+    width: 100%;
+    padding: 14px;
+
+    background: #111;
+    color: white;
+
+    border: none;
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    margin-top: 10px;
+}
+
+.main-button:hover {
+    background: #333;
+}
+
+.yellow-button {
+    width: 100%;
+    padding: 14px;
+
+    background: #ffd600;
+    color: #111;
+
+    border: none;
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    margin-top: 10px;
+}
+
+.yellow-button:hover {
+    background: #e6c200;
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.input-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: #ffd600;
+}
+
+
+/* =====================================================
+   LOGIN PAGE
+===================================================== */
+
+.login-page {
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.65),
+            rgba(0,0,0,0.65)
+        ),
+        url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.login-box {
+
+    width: 400px;
+    max-width: 90%;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.4);
+
+    text-align: center;
+}
+
+.login-logo {
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.login-logo span {
+    color: #ffd600;
+}
+
+.login-box h2 {
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   REGISTRATION
+===================================================== */
+
+.register-wrapper {
+
+    width: 90%;
+
+    max-width: 750px;
+
+    margin: 40px auto;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.1);
+}
+
+.register-wrapper h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.full-width {
+    grid-column: 1 / 3;
+}
+
+.gender-options {
+
+    display: flex;
+
+    gap: 20px;
+
+    padding-top: 10px;
+}
+
+
+/* =====================================================
+   HOME PAGE
+===================================================== */
+
+.home-hero {
+
+    min-height: 400px;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.55)
+        ),
+        url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: white;
+}
+
+.home-content h1 {
+
+    font-size: 50px;
+
+    margin-bottom: 15px;
+}
+
+.home-content h1 span {
+    color: #ffd600;
+}
+
+.home-content p {
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   BOOKING CARD
+===================================================== */
+
+.booking-card {
+
+    width: 90%;
+
+    max-width: 600px;
+
+    margin: -70px auto 40px;
+
+    position: relative;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.2);
+}
+
+.booking-card h2 {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   VEHICLE
+===================================================== */
+
+.vehicle-list {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+.vehicle {
+
+    border: 2px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 15px 5px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.vehicle:hover {
+    border-color: #ffd600;
+}
+
+.vehicle.selected {
+
+    border-color: #111;
+
+    background: #fff8bd;
+}
+
+.vehicle-icon {
+    font-size: 35px;
+    margin-bottom: 5px;
+}
+
+.vehicle-name {
+    font-weight: bold;
+}
+
+.vehicle-price {
+
+    color: #777;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
+.container {
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: 40px auto;
+}
+
+.services {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 20px;
+}
+
+.service {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.08);
+}
+
+.service-icon {
+
+    font-size: 50px;
+
+    margin-bottom: 15px;
+}
+
+.service h3 {
+    margin-bottom: 10px;
+}
+
+.service p {
+    color: #777;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    background: #111;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 30px;
+
+    margin-top: 50px;
+}
+
+.footer h2 {
+
+    color: #ffd600;
+
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: #aaa;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px) {
+
+    .header {
+        padding: 0 20px;
+    }
+
+    .header-right span {
+        display: none;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: 1;
+    }
+
+    .vehicle-list {
+        grid-template-columns: 1fr;
+    }
+
+    .services {
+        grid-template-columns: 1fr;
+    }
+
+    .home-content h1 {
+        font-size: 35px;
+    }
+
+    .register-wrapper {
+        padding: 25px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PAGE 1 - LOGIN
+===================================================== -->
+
+<div class="page active" id="loginPage">
+
+    <div class="login-page">
+
+        <div class="login-box">
+
+            <div class="login-logo">
+                <span>RYDEON</span>
+            </div>
+
+            <h2>
+                Welcome Back!
+            </h2>
+
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="loginMobile"
+                    maxlength="10"
+                    placeholder="Enter 10 digit mobile number"
+                    oninput="onlyNumbers(this)"
+                >
+
+                <div
+                    class="error"
+                    id="loginMobileError">
+
+                    Please enter exactly 10 digits.
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                >
+
+                <div
+                    class="error"
+                    id="loginPasswordError">
+
+                    Please enter password.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="main-button"
+                onclick="login()">
+
+                LOGIN
+
+            </button>
+
+
+            <button
+                class="yellow-button"
+                onclick="showPage('registerPage')">
+
+                CREATE ACCOUNT
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PAGE 2 - REGISTRATION
+===================================================== -->
+
+<div class="page" id="registerPage">
+
+
+    <div class="header">
+
+        <div class="logo">
+            RYDEON
+        </div>
+
+        <div class="header-right">
+
+            <span onclick="showPage('loginPage')">
+                Login
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="register-wrapper">
+
+        <h1>
+            Create Your RYDEON Account
+        </h1>
+
+        <p class="subtitle">
+            Register to book your rides
+        </p>
+
+
+        <div class="form-grid">
+
+
+            <div class="input-group">
+
+                <label>
+                    First Name
+                </label>
+
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="First name"
+                    oninput="onlyLetters(this)"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Last Name
+                </label>
+
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Last name"
+                    oninput="onlyLetters(this)"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="registerMobile"
+                    maxlength="10"
+                    placeholder="10 digit number"
+                    oninput="onlyNumbers(this)"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@gmail.com"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="dob"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    City
+                </label>
+
+                <select id="city">
+
+                    <option value="">
+                        Select City
+                    </option>
+
+                    <option>
+                        Chennai
+                    </option>
+
+                    <option>
+                        Kanchipuram
+                    </option>
+
+                    <option>
+                        Bangalore
+                    </option>
+
+                    <option>
+                        Hyderabad
+                    </option>
+
+                    <option>
+                        Coimbatore
+                    </option>
+
+                    <option>
+                        Madurai
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="input-group full-width">
+
+                <label>
+                    Gender
+                </label>
+
+                <div class="gender-options">
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Male"
+                        >
+                        Male
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Female"
+                        >
+                        Female
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Other"
+                        >
+                        Other
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group full-width">
+
+                <label>
+                    Address
+                </label>
+
+                <textarea
+                    id="address"
+                    rows="3"
+                    placeholder="Enter your address"
+                ></textarea>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Create password"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm password"
+                >
+
+            </div>
+
+
+            <div
+                class="error full-width"
+                id="registerError">
+            </div>
+
+
+            <button
+                class="main-button full-width"
+                onclick="registerUser()">
+
+                REGISTER
+
+            </button>
+
+
+            <button
+                class="yellow-button full-width"
+                onclick="showPage('loginPage')">
+
+                BACK TO LOGIN
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PAGE 3 - HOME
+===================================================== -->
+
+<div class="page" id="homePage">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            RYDEON
+        </div>
+
+        <div class="header-right">
+
+            <span>
+                Welcome,
+                <strong id="userDisplay">
+                    User
+                </strong>
+            </span>
+
+            <span onclick="logout()">
+                Logout
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <div class="home-hero">
+
+        <div class="home-content">
+
+            <h1>
+                Your Ride,
+                <span>Your Way</span>
+            </h1>
+
+            <p>
+                Fast, Safe and Affordable
+                Transportation
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKING CARD -->
+
+    <div class="booking-card">
+
+        <h2>
+            Book Your RYDEON
+        </h2>
+
+
+        <!-- PICKUP -->
+
+        <div class="input-group">
+
+            <label>
+                📍 Pickup Location
+            </label>
+
+            <input
+                type="text"
+                id="pickup"
+                placeholder="Enter pickup location"
+            >
+
+        </div>
+
+
+        <!-- DROP -->
+
+        <div class="input-group">
+
+            <label>
+                🏁 Drop Location
+            </label>
+
+            <input
+                type="text"
+                id="drop"
+                placeholder="Enter destination"
+            >
+
+        </div>
+
+
+        <!-- DISTANCE -->
+
+        <div class="input-group">
+
+            <label>
+                📏 Distance in KM
+            </label>
+
+            <input
+                type="number"
+                id="distance"
+                min="1"
+                max="1000"
+                placeholder="Example: 10"
+                oninput="validateDistance()"
+            >
+
+            <div
+                class="error"
+                id="distanceError">
+
+                Please enter distance between
+                1 and 1000 KM.
+
+            </div>
+
+        </div>
+
+
+        <!-- VEHICLE -->
+
+        <label>
+            Select Vehicle
+        </label>
+
+
+        <div class="vehicle-list">
+
+
+            <!-- BIKE -->
+
+            <div
+                class="vehicle"
+                id="bike"
+                onclick="selectVehicle('bike')">
+
+                <div class="vehicle-icon">
+                    🏍️
+                </div>
+
+                <div class="vehicle-name">
+                    Bike
+                </div>
+
+                <div class="vehicle-price">
+                    ₹10/km
+                </div>
+
+            </div>
+
+
+            <!-- AUTO -->
+
+            <div
+                class="vehicle"
+                id="auto"
+                onclick="selectVehicle('auto')">
+
+                <div class="vehicle-icon">
+                    🛺
+                </div>
+
+                <div class="vehicle-name">
+                    Auto
+                </div>
+
+                <div class="vehicle-price">
+                    ₹15/km
+                </div>
+
+            </div>
+
+
+            <!-- CAB -->
+
+            <div
+                class="vehicle"
+                id="cab"
+                onclick="selectVehicle('cab')">
+
+                <div class="vehicle-icon">
+                    🚕
+                </div>
+
+                <div class="vehicle-name">
+                    Cab
+                </div>
+
+                <div class="vehicle-price">
+                    ₹20/km
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="error"
+            id="bookingError">
+
+            Please fill all details and select
+            a vehicle.
+
+        </div>
+
+
+        <button
+            class="main-button"
+            onclick="calculatePrice()">
+
+            CHECK RIDE PRICE
+
+        </button>
+
+    </div>
+
+
+
+    <!-- SERVICES -->
+
+    <div class="container">
+
+        <h2
+            style="text-align:center;
+                   margin-bottom:25px;">
+
+            RYDEON Services
+
+        </h2>
+
+
+        <div class="services">
+
+
+            <!-- BIKE -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🏍️
+                </div>
+
+                <h3>
+                    Bike
+                </h3>
+
+                <p>
+                    Affordable and fast
+                    two-wheeler rides.
+                </p>
+
+            </div>
+
+
+            <!-- AUTO -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🛺
+                </div>
+
+                <h3>
+                    Auto
+                </h3>
+
+                <p>
+                    Comfortable rides
+                    for everyday travel.
+                </p>
+
+            </div>
+
+
+            <!-- CAB -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🚕
+                </div>
+
+                <h3>
+                    Cab
+                </h3>
+
+                <p>
+                    Comfortable rides
+                    for longer journeys.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <h2>
+            RYDEON
+        </h2>
+
+        <p>
+            Your Ride. Your Way.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let selectedVehicle = "";
+
+let distance = 0;
+
+let totalFare = 0;
+
+
+/* =====================================================
+   VEHICLE FARES
+===================================================== */
+
+const vehicleRates = {
+
+    bike: {
+        name: "Bike",
+        base: 20,
+        perKm: 10
+    },
+
+    auto: {
+        name: "Auto",
+        base: 30,
+        perKm: 15
+    },
+
+    cab: {
+        name: "Cab",
+        base: 50,
+        perKm: 20
+    }
+
+};
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(pageID) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(function(page) {
+
+            page.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(pageID)
+        .classList.add("active");
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* =====================================================
+   ONLY NUMBERS
+===================================================== */
+
+function onlyNumbers(input) {
+
+    input.value =
+        input.value.replace(
+            /[^0-9]/g,
+            ""
+        );
+
+}
+
+
+/* =====================================================
+   ONLY LETTERS
+===================================================== */
+
+function onlyLetters(input) {
+
+    input.value =
+        input.value.replace(
+            /[^A-Za-z ]/g,
+            ""
+        );
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login() {
+
+    let mobile =
+        document
+            .getElementById("loginMobile")
+            .value.trim();
+
+
+    let password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    let valid = true;
+
+
+    /* MOBILE */
+
+    if (mobile.length !== 10) {
+
+        document
+            .getElementById("loginMobileError")
+            .style.display = "block";
+
+        valid = false;
+
+    }
+
+    else {
+
+        document
+            .getElementById("loginMobileError")
+            .style.display = "none";
+
+    }
+
+
+    /* PASSWORD */
+
+    if (password === "") {
+
+        document
+            .getElementById("loginPasswordError")
+            .style.display = "block";
+
+        valid = false;
+
+    }
+
+    else {
+
+        document
+            .getElementById("loginPasswordError")
+            .style.display = "none";
+
+    }
+
+
+    if (!valid) {
+        return;
+    }
+
+
+    /*
+       Show home page
+    */
+
+    showPage("homePage");
+
+}
+
+
+/* =====================================================
+   REGISTRATION
+===================================================== */
+
+function registerUser() {
+
+    let firstName =
+        document
+            .getElementById("firstName")
+            .value.trim();
+
+
+    let lastName =
+        document
+            .getElementById("lastName")
+            .value.trim();
+
+
+    let mobile =
+        document
+            .getElementById("registerMobile")
+            .value.trim();
+
+
+    let email =
+        document
+            .getElementById("email")
+            .value.trim();
+
+
+    let dob =
+        document
+            .getElementById("dob")
+            .value;
+
+
+    let city =
+        document
+            .getElementById("city")
+            .value;
+
+
+    let address =
+        document
+            .getElementById("address")
+            .value.trim();
+
+
+    let password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+
+    let confirmPassword =
+        document
+            .getElementById("confirmPassword")
+            .value;
+
+
+    let error =
+        document.getElementById(
+            "registerError"
+        );
+
+
+    /* REQUIRED FIELDS */
+
+    if (
+
+        firstName === "" ||
+        lastName === "" ||
+        mobile.length !== 10 ||
+        email === "" ||
+        dob === "" ||
+        city === "" ||
+        address === "" ||
+        password === "" ||
+        confirmPassword === ""
+
+    ) {
+
+        error.innerText =
+            "Please fill all required fields.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* EMAIL */
+
+    let emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    if (!emailPattern.test(email)) {
+
+        error.innerText =
+            "Please enter a valid email address.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* PASSWORD */
+
+    if (password.length < 6) {
+
+        error.innerText =
+            "Password must contain at least 6 characters.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* CONFIRM PASSWORD */
+
+    if (password !== confirmPassword) {
+
+        error.innerText =
+            "Passwords do not match.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    error.style.display =
+        "none";
+
+
+    /*
+       Display user's first name
+    */
+
+    document.getElementById(
+        "userDisplay"
+    ).innerText = firstName;
+
+
+    /*
+       Registration successful
+    */
+
+    alert(
+        "Registration successful!"
+    );
+
+
+    /*
+       Go directly to Home
+    */
+
+    showPage("homePage");
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    selectedVehicle = "";
+
+    distance = 0;
+
+    totalFare = 0;
+
+
+    document.getElementById(
+        "loginMobile"
+    ).value = "";
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
+
+    showPage("loginPage");
+
+}
+
+
+/* =====================================================
+   SELECT VEHICLE
+===================================================== */
+
+function selectVehicle(vehicle) {
+
+    selectedVehicle = vehicle;
+
+
+    document
+        .querySelectorAll(".vehicle")
+        .forEach(function(item) {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    document
+        .getElementById(vehicle)
+        .classList.add("selected");
+
+}
+
+
+/* =====================================================
+   DISTANCE VALIDATION
+===================================================== */
+
+function validateDistance() {
+
+    let value =
+        Number(
+            document
+                .getElementById("distance")
+                .value
+        );
+
+
+    let error =
+        document.getElementById(
+            "distanceError"
+        );
+
+
+    if (
+        value < 1 ||
+        value > 1000 ||
+        isNaN(value)
+    ) {
+
+        error.style.display =
+            "block";
+
+    }
+
+    else {
+
+        error.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   CALCULATE RIDE PRICE
+===================================================== */
+
+function calculatePrice() {
+
+    let pickup =
+        document
+            .getElementById("pickup")
+            .value.trim();
+
+
+    let drop =
+        document
+            .getElementById("drop")
+            .value.trim();
+
+
+    distance =
+        Number(
+            document
+                .getElementById("distance")
+                .value
+        );
+
+
+    let error =
+        document.getElementById(
+            "bookingError"
+        );
+
+
+    /*
+       VALIDATION
+    */
+
+    if (
+
+        pickup === "" ||
+
+        drop === "" ||
+
+        selectedVehicle === "" ||
+
+        distance < 1 ||
+
+        distance > 1000 ||
+
+        isNaN(distance)
+
+    ) {
+
+        error.innerText =
+            "Please enter pickup, destination, valid distance and select a vehicle.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    error.style.display =
+        "none";
+
+
+    /*
+       GET VEHICLE
+    */
+
+    let rate =
+        vehicleRates[
+            selectedVehicle
+        ];
+
+
+    /*
+       CALCULATE FARE
+    */
+
+    let base =
+        rate.base;
+
+
+    let distanceFare =
+        distance * rate.perKm;
+
+
+    let serviceCharge =
+        10;
+
+
+    totalFare =
+        base +
+        distanceFare +
+        serviceCharge;
+
+
+    /*
+       SHOW RESULT
+    */
+
+    alert(
+        "Ride Price\n\n" +
+        "Vehicle: " + rate.name +
+        "\nDistance: " + distance + " KM" +
+        "\nBase Fare: ₹" + base +
+        "\nDistance Fare: ₹" + distanceFare +
+        "\nService Charge: ₹" + serviceCharge +
+        "\n\nTotal Fare: ₹" + totalFare
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
