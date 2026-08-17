@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RYDEON</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #ffd600;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .page {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .box {
+            background: white;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px #ccc;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #111;
+            color: white;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .vehicles {
+            display: flex;
+            gap: 10px;
+        }
+
+        .vehicle {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .vehicle:hover {
+            background: #fff0a0;
+        }
+
+        .star {
+            font-size: 35px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .selected {
+            color: #ffd600;
+        }
+
+        .map {
+            background: #cde5c8;
+            height: 250px;
+            padding: 80px;
+            font-size: 50px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>RYDEON</header>
+
+<!-- HOME -->
+<div id="home" class="page active">
+    <div class="box">
+        <h1>Your Ride, Your Way 🚗</h1>
+
+        <input id="pickup" placeholder="Pickup Location">
+        <input id="drop" placeholder="Drop Location">
+        <input id="distance" type="number" placeholder="Distance (KM)">
+
+        <h3>Select Vehicle</h3>
+
+        <div class="vehicles">
+            <div class="vehicle" onclick="vehicle='Bike'">🏍️ Bike<br>₹10/km</div>
+            <div class="vehicle" onclick="vehicle='Auto'">🛺 Auto<br>₹15/km</div>
+            <div class="vehicle" onclick="vehicle='Cab'">🚕 Cab<br>₹20/km</div>
+        </div>
+
+        <button onclick="bookRide()">BOOK RIDE</button>
+    </div>
+</div>
+
+
+<!-- PAYMENT -->
+<div id="payment" class="page">
+    <div class="box">
+        <h2>💳 Payment</h2>
+
+        <p>Vehicle: <b id="payVehicle"></b></p>
+        <p>Fare: ₹<b id="fare"></b></p>
+
+        <select id="method">
+            <option>UPI</option>
+            <option>Card</option>
+            <option>Cash</option>
+        </select>
+
+        <button onclick="pay()">PAY NOW</button>
+    </div>
+</div>
+
+
+<!-- TRACKING -->
+<div id="tracking" class="page">
+    <div class="box">
+        <h2>📍 Vehicle Tracking</h2>
+
+        <div class="map">
+            🏍️
+        </div>
+
+        <p>Driver: Rajesh Kumar</p>
+        <p>Vehicle: TN 21 AB 4567</p>
+        <p>Driver is on the way...</p>
+
+        <button onclick="completeRide()">
+            RIDE COMPLETED
+        </button>
+    </div>
+</div>
+
+
+<!-- FEEDBACK -->
+<div id="feedback" class="page">
+    <div class="box">
+        <h2>⭐ Ride Completed!</h2>
+
+        <p>Rate your experience</p>
+
+        <span class="star" onclick="rate(1)">★</span>
+        <span class="star" onclick="rate(2)">★</span>
+        <span class="star" onclick="rate(3)">★</span>
+        <span class="star" onclick="rate(4)">★</span>
+        <span class="star" onclick="rate(5)">★</span>
+
+        <textarea placeholder="Write your feedback"></textarea>
+
+        <button onclick="submitFeedback()">
+            SUBMIT FEEDBACK
+        </button>
+    </div>
+</div>
+
+
+<script>
+
+let vehicle = "";
+let price = 0;
+let rating = 0;
+
+
+/* Change page */
+function showPage(id) {
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
+
+    document.getElementById(id)
+        .classList.add("active");
+}
+
+
+/* Book ride */
+function bookRide() {
+
+    let distance = Number(
+        document.getElementById("distance").value
+    );
+
+    if (!vehicle || !distance) {
+        alert("Please enter details and select vehicle");
+        return;
+    }
+
+    if (vehicle == "Bike")
+        price = distance * 10;
+
+    if (vehicle == "Auto")
+        price = distance * 15;
+
+    if (vehicle == "Cab")
+        price = distance * 20;
+
+    document.getElementById("payVehicle").innerText = vehicle;
+    document.getElementById("fare").innerText = price;
+
+    showPage("payment");
+}
+
+
+/* Payment */
+function pay() {
+    alert("Payment Successful! ₹" + price);
+    showPage("tracking");
+}
+
+
+/* Complete ride */
+function completeRide() {
+    showPage("feedback");
+}
+
+
+/* Rating */
+function rate(num) {
+
+    rating = num;
+
+    let stars = document.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+        star.classList.toggle(
+            "selected",
+            index < num
+        );
+    });
+}
+
+
+/* Feedback */
+function submitFeedback() {
+
+    if (rating == 0) {
+        alert("Please give a rating");
+        return;
+    }
+
+    alert("Thank you for your feedback! ⭐");
+
+    vehicle = "";
+    price = 0;
+    rating = 0;
+
+    showPage("home");
+}
+
+</script>
+
+</body>
+</html>
