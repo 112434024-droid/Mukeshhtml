@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RYDEON - Login & Registration</title>
+
+    <style>
+
+        /* =====================================================
+           GENERAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            height: 70px;
+            background: #ffd600;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #111;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-right span {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .main-button {
+            width: 100%;
+            padding: 14px;
+
+            background: #111;
+            color: white;
+
+            border: none;
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            margin-top: 10px;
+        }
+
+        .main-button:hover {
+            background: #333;
+        }
+
+        .yellow-button {
+            width: 100%;
+            padding: 14px;
+
+            background: #ffd600;
+            color: #111;
+
+            border: none;
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            margin-top: 10px;
+        }
+
+        .yellow-button:hover {
+            background: #e6c200;
+        }
+
+
+        /* =====================================================
+           ERROR MESSAGE
+        ===================================================== */
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+
+        /* =====================================================
+           INPUT
+        ===================================================== */
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #ffd600;
+        }
+
+
+        /* =====================================================
+           LOGIN PAGE
+        ===================================================== */
+
+        .login-page {
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.65),
+                    rgba(0,0,0,0.65)
+                ),
+                url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-box {
+
+            width: 400px;
+            max-width: 90%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.4);
+
+            text-align: center;
+        }
+
+        .login-logo {
+
+            font-size: 42px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+        .login-logo span {
+            color: #ffd600;
+        }
+
+        .login-box h2 {
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           REGISTRATION PAGE
+        ===================================================== */
+
+        .register-wrapper {
+
+            width: 90%;
+
+            max-width: 750px;
+
+            margin: 40px auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .register-wrapper h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .full-width {
+            grid-column: 1 / 3;
+        }
+
+        .gender-options {
+
+            display: flex;
+
+            gap: 20px;
+
+            padding-top: 10px;
+        }
+
+        .gender-options label {
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           SUCCESS MESSAGE
+        ===================================================== */
+
+        .success {
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:768px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .header-right span {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: 1;
+            }
+
+            .register-wrapper {
+                padding: 25px;
+            }
+
+            .gender-options {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<div class="page active" id="loginPage">
+
+    <div class="login-page">
+
+        <div class="login-box">
+
+            <div class="login-logo">
+                <span>RYDEON</span>
+            </div>
+
+            <h2>
+                Welcome Back!
+            </h2>
+
+
+            <!-- MOBILE NUMBER -->
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="loginMobile"
+                    maxlength="10"
+                    placeholder="Enter 10 digit mobile number"
+                    oninput="onlyNumbers(this)"
+                >
+
+                <div
+                    class="error"
+                    id="loginMobileError">
+
+                    Please enter exactly 10 digits.
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                >
+
+                <div
+                    class="error"
+                    id="loginPasswordError">
+
+                    Please enter password.
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                class="main-button"
+                onclick="login()">
+
+                LOGIN
+
+            </button>
+
+
+            <!-- REGISTER BUTTON -->
+
+            <button
+                class="yellow-button"
+                onclick="showPage('registerPage')">
+
+                CREATE ACCOUNT
+
+            </button>
+
+
+            <div
+                class="success"
+                id="loginSuccess">
+
+                Login successful!
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     REGISTRATION PAGE
+===================================================== -->
+
+<div class="page" id="registerPage">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            RYDEON
+        </div>
+
+        <div class="header-right">
+
+            <span onclick="showPage('loginPage')">
+                Login
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- REGISTRATION FORM -->
+
+    <div class="register-wrapper">
+
+        <h1>
+            Create Your RYDEON Account
+        </h1>
+
+        <p class="subtitle">
+            Register to book your rides
+        </p>
+
+
+        <div class="form-grid">
+
+
+            <!-- FIRST NAME -->
+
+            <div class="input-group">
+
+                <label>
+                    First Name
+                </label>
+
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="First name"
+                    oninput="onlyLetters(this)"
+                >
+
+            </div>
+
+
+            <!-- LAST NAME -->
+
+            <div class="input-group">
+
+                <label>
+                    Last Name
+                </label>
+
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Last name"
+                    oninput="onlyLetters(this)"
+                >
+
+            </div>
+
+
+            <!-- MOBILE -->
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="registerMobile"
+                    maxlength="10"
+                    placeholder="10 digit number"
+                    oninput="onlyNumbers(this)"
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@gmail.com"
+                >
+
+            </div>
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="input-group">
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="dob"
+                >
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="input-group">
+
+                <label>
+                    City
+                </label>
+
+                <select id="city">
+
+                    <option value="">
+                        Select City
+                    </option>
+
+                    <option>
+                        Chennai
+                    </option>
+
+                    <option>
+                        Kanchipuram
+                    </option>
+
+                    <option>
+                        Bangalore
+                    </option>
+
+                    <option>
+                        Hyderabad
+                    </option>
+
+                    <option>
+                        Coimbatore
+                    </option>
+
+                    <option>
+                        Madurai
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="input-group full-width">
+
+                <label>
+                    Gender
+                </label>
+
+                <div class="gender-options">
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Male"
+                        >
+
+                        Male
+
+                    </label>
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Female"
+                        >
+
+                        Female
+
+                    </label>
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Other"
+                        >
+
+                        Other
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="input-group full-width">
+
+                <label>
+                    Address
+                </label>
+
+                <textarea
+                    id="address"
+                    rows="3"
+                    placeholder="Enter your address"
+                ></textarea>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Create password"
+                >
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="input-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm password"
+                >
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                class="error full-width"
+                id="registerError">
+
+            </div>
+
+
+            <!-- REGISTER BUTTON -->
+
+            <button
+                class="main-button full-width"
+                onclick="registerUser()">
+
+                REGISTER
+
+            </button>
+
+
+            <!-- BACK TO LOGIN -->
+
+            <button
+                class="yellow-button full-width"
+                onclick="showPage('loginPage')">
+
+                BACK TO LOGIN
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(pageID) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(function(page) {
+
+            page.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(pageID)
+        .classList.add("active");
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+
+/* =====================================================
+   ONLY NUMBERS
+===================================================== */
+
+function onlyNumbers(input) {
+
+    input.value =
+        input.value.replace(
+            /[^0-9]/g,
+            ""
+        );
+
+}
+
+
+
+/* =====================================================
+   ONLY LETTERS
+===================================================== */
+
+function onlyLetters(input) {
+
+    input.value =
+        input.value.replace(
+            /[^A-Za-z ]/g,
+            ""
+        );
+
+}
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login() {
+
+    let mobile =
+        document
+            .getElementById("loginMobile")
+            .value.trim();
+
+
+    let password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    let mobileError =
+        document.getElementById(
+            "loginMobileError"
+        );
+
+
+    let passwordError =
+        document.getElementById(
+            "loginPasswordError"
+        );
+
+
+    let valid = true;
+
+
+    /* MOBILE VALIDATION */
+
+    if (mobile.length !== 10) {
+
+        mobileError.style.display =
+            "block";
+
+        valid = false;
+
+    }
+
+    else {
+
+        mobileError.style.display =
+            "none";
+
+    }
+
+
+    /* PASSWORD VALIDATION */
+
+    if (password === "") {
+
+        passwordError.style.display =
+            "block";
+
+        valid = false;
+
+    }
+
+    else {
+
+        passwordError.style.display =
+            "none";
+
+    }
+
+
+    /* STOP IF INVALID */
+
+    if (!valid) {
+        return;
+    }
+
+
+    /*
+       LOGIN SUCCESS
+    */
+
+    alert("Login successful!");
+
+
+    /*
+       At this point you can connect
+       your Home page.
+
+       Example:
+
+       showPage("homePage");
+    */
+
+}
+
+
+
+/* =====================================================
+   REGISTRATION
+===================================================== */
+
+function registerUser() {
+
+    let firstName =
+        document
+            .getElementById("firstName")
+            .value.trim();
+
+
+    let lastName =
+        document
+            .getElementById("lastName")
+            .value.trim();
+
+
+    let mobile =
+        document
+            .getElementById("registerMobile")
+            .value.trim();
+
+
+    let email =
+        document
+            .getElementById("email")
+            .value.trim();
+
+
+    let dob =
+        document
+            .getElementById("dob")
+            .value;
+
+
+    let city =
+        document
+            .getElementById("city")
+            .value;
+
+
+    let address =
+        document
+            .getElementById("address")
+            .value.trim();
+
+
+    let password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+
+    let confirmPassword =
+        document
+            .getElementById("confirmPassword")
+            .value;
+
+
+    let error =
+        document.getElementById(
+            "registerError"
+        );
+
+
+    /* =================================================
+       REQUIRED FIELD VALIDATION
+    ================================================= */
+
+    if (
+
+        firstName === "" ||
+
+        lastName === "" ||
+
+        mobile.length !== 10 ||
+
+        email === "" ||
+
+        dob === "" ||
+
+        city === "" ||
+
+        address === "" ||
+
+        password === "" ||
+
+        confirmPassword === ""
+
+    ) {
+
+        error.innerText =
+            "Please fill all required fields.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* =================================================
+       EMAIL VALIDATION
+    ================================================= */
+
+    let emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    if (!emailPattern.test(email)) {
+
+        error.innerText =
+            "Please enter a valid email address.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* =================================================
+       PASSWORD VALIDATION
+    ================================================= */
+
+    if (password.length < 6) {
+
+        error.innerText =
+            "Password must contain at least 6 characters.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* =================================================
+       CONFIRM PASSWORD
+    ================================================= */
+
+    if (password !== confirmPassword) {
+
+        error.innerText =
+            "Passwords do not match.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* =================================================
+       SUCCESS
+    ================================================= */
+
+    error.style.display =
+        "none";
+
+
+    alert(
+        "Registration successful!"
+    );
+
+
+    /*
+       Return to Login page
+    */
+
+    showPage("loginPage");
+
+
+    /*
+       Automatically put the
+       registered mobile number
+       into login field.
+    */
+
+    document.getElementById(
+        "loginMobile"
+    ).value = mobile;
+
+
+    /*
+       Clear password
+    */
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
